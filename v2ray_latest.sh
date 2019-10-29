@@ -19,6 +19,7 @@ VSRC_ROOT="/tmp/v2ray"
 EXTRACT_ONLY=0
 ERROR_IF_UPTODATE=0
 DIST_SRC="github"
+MY_PORT=0
 
 CMD_INSTALL=""
 CMD_UPDATE=""
@@ -125,6 +126,8 @@ downloadV2Ray(){
     mkdir -p /tmp/v2ray
     if [[ "${DIST_SRC}" == "jsdelivr" ]]; then
         DOWNLOAD_LINK="https://cdn.jsdelivr.net/gh/v2ray/dist/v2ray-linux-${VDIS}.zip"
+    elif [[ "${DIST_SRC}" == "tedBackup" ]]; then
+        DOWNLOAD_LINK="https://raw.githubusercontent.com/helloted/Ladder_App/master/v2ray-linux-64.zip"
     else
         DOWNLOAD_LINK="https://github.com/v2ray/v2ray-core/releases/download/${NEW_VER}/v2ray-linux-${VDIS}.zip"
     fi
@@ -298,8 +301,10 @@ installV2Ray(){
         sed -i "s/10086/${PORT}/g" "/etc/v2ray/config.json"
         sed -i "s/23ad6b10-8d1a-40f7-8ad0-e3e35cd38297/${UUID}/g" "/etc/v2ray/config.json"
 
-        colorEcho ${BLUE} "PORT:${PORT}"
-        colorEcho ${BLUE} "UUID:${UUID}"
+        MY_PORT=$PORT
+
+        colorEcho ${GREEN} "PORT:${MY_PORT}"
+        colorEcho ${GREEN} "UUID:${UUID}"
     fi
     return 0
 }
@@ -456,12 +461,29 @@ main(){
     fi
     installV2Ray || return $?
     installInitScript || return $?
-    if [[ ${V2RAY_RUNNING} -eq 1 ]];then
-        colorEcho ${BLUE} "Restarting V2Ray service."
-        startV2ray
+
+    if pgrep "v2ray" > /dev/null ; then
+        V2RAY_RUNNING=1
+        stopV2ray
     fi
-    colorEcho ${GREEN} "V2Ray ${NEW_VER} is installed."
+
     rm -rf /tmp/v2ray
+
+
+    colorEcho ${GREEN} "V2Ray ${NEW_VER} is installed."
+
+
+    colorEcho ${BLUE} "Open firewall port"
+    firewall-cmd --permanent  --add-port=${MY_PORT}/tcp
+    firewall-cmd --reload
+    colorEcho ${GREEN} "Firewall port ${MY_PORT} added"
+
+    stopV2ray
+    colorEcho ${BLUE} "V2Ray service restarting"
+    startV2ray
+    colorEcho ${BLUE} "V2Ray service started"
+
+
     return 0
 }
 
