@@ -534,5 +534,5 @@ for (var rule of["|http://85.17.73.31/", "||agnesb.fr", "||akiba-web.com", "||al
 }
 
 function FindProxyForURL(url, host) {
-    return matcher.matchesAny(url, host) instanceof BlockingFilter ? "SOCKS5 127.0.0.1:10881; SOCKS 127.0.0.1:10881; SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080; DIRECT" : "DIRECT";
+    return "SOCKS5 127.0.0.1:10881; SOCKS 127.0.0.1:10881; SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080; DIRECT";
 }
