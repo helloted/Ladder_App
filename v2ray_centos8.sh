@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 echo -e "\033[32m\033[01m\033[05m先安装V2Ray \033[0m"
-bash <(curl -sL https://raw.githubusercontent.com/hijkpw/scripts/master/centos_install_v2ray.sh)
+bash <(curl -sL https://raw.githubusercontent.com/helloted/Ladder_App/master/v2ray_centos8_backup.sh)
 
 echo -e "\033[32m\033[01m\033[05m更新配置 \033[0m"
 curl -L https://raw.githubusercontent.com/helloted/Ladder_App/master/config.json -o /etc/v2ray/config.json
