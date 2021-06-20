@@ -5,7 +5,7 @@ bash <(curl -sL https://raw.githubusercontent.com/helloted/Ladder_App/master/v2r
 
 echo -e "\033[32m\033[01m\033[05m更新配置 \033[0m"
 curl -L https://raw.githubusercontent.com/helloted/Ladder_App/master/config.json -o /etc/v2ray/config.json
-echo -e "\033[32m\033[01m\033[05m最新配置\033[0m"
+echo -e "\033[32m\033[01m\033[05m最新配置 cat /etc/v2ray/config.json \033[0m"
 cat /etc/v2ray/config.json
 echo -e "\033[32m\033[01m\033[05m重启V2Ray \033[0m"
 systemctl  restart  v2ray
