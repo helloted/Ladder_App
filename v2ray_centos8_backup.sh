@@ -20,6 +20,7 @@ if [[ "$?" != "0" ]]; then
 fi
 
 CONFIG_FILE="/etc/v2ray/config.json"
+PORT=38235
 
 colorEcho() {
     echo -e "${1}${@:2}${PLAIN}"
@@ -56,12 +57,6 @@ checkSystem() {
 getData() {
     while true
     do
-        read -p " 请输入v2ray的端口[1-65535]:" PORT
-        [ -z "$PORT" ] && PORT="21568"
-        if [ "${PORT:0:1}" = "0" ]; then
-            echo -e " ${RED}端口不能以0开头${PLAIN}"
-            exit 1
-        fi
         expr $PORT + 0 &>/dev/null
         if [ $? -eq 0 ]; then
             if [ $PORT -ge 1 ] && [ $PORT -le 65535 ]; then
